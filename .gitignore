@@ -2,6 +2,8 @@
 /_build
 /blib
 /META.yml
+/README
 /MYMETA.yml
 /*.tar.gz
 /*.bak
+/Log-Log4perl-Appender-RabbitMQ*
