@@ -1,0 +1,7 @@
+/Build
+/_build
+/blib
+/META.yml
+/MYMETA.yml
+/*.tar.gz
+/*.bak

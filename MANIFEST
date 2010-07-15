@@ -1,0 +1,3 @@
+Build.pl
+lib/Log/Log4perl/Appender/RabbitMQ.pm
+MANIFEST			This list of files
