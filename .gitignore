@@ -2,7 +2,6 @@
 /_build
 /blib
 /META.yml
-/README
 /MYMETA.yml
 /*.tar.gz
 /*.bak

@@ -1,0 +1,75 @@
+NAME
+    Log::Log4perl::Appender::RabbitMQ - Log to RabbitMQ
+
+SYNOPSIS
+        use Log::Log4perl;
+
+        my $log4perl_config = q{
+            log4perl.logger = DEBUG, RabbitMQ
+
+            log4perl.appender.RabbitMQ             = Log::Log4perl::Appender::RabbitMQ
+            log4perl.appender.RabbitMQ.exchange    = myexchange
+            log4perl.appender.RabbitMQ.routing_key = mykey
+            log4perl.appender.RabbitMQ.layout      = Log::Log4perl::Layout::PatternLayout
+        };
+
+        Log::Log4perl::init(\$log4perl_config);
+
+        my $log = Log::Log4perl->get_logger();
+
+        $log->warn('this is my message');
+
+DESCRIPTION
+    This is a Log::Log4perl appender for publishing log messages to RabbitMQ
+    group using Net::RabbitMQ. Defaults for unspecified options are provided
+    by Net::RabbitMQ and can be found in it's documentation.
+
+  OPTIONS
+    All of the following options can be passed to the constructor, or be
+    specified in the Log4perl config file. Unless otherwise stated, any
+    options not specified will get whatever defaults Net::RabbitMQ provides.
+    See the documentation for that module for more details.
+
+   Connetion Options
+    These options are used in the call to Net::RabbitMQ::connect() when the
+    appender is created.
+
+    user
+    password
+    port
+    vhost
+    channel_max
+    frame_max
+    heartbeat
+
+   Publishing Options
+    These options are used in the call to Net::RabbitMQ::publish() for each
+    message.
+
+    routing_key
+        The routing key for messages. If the routing key contains a %c or a
+        %p it will be interpolated for each message. %c will be replaced
+        with the Log4perl category. %p will be replaces with the Log4perl
+        priority.
+
+        Defaults to %C
+
+    exchange
+        The exchange to publish the message too. This exchange must already
+        exist.
+
+    mandatory
+        boolean. Flag published messages mandatory.
+
+    immediate
+        boolean. Flag published messages immediate.
+
+AUTHOR
+    Trevor J. Little, <bundacia@tjlittle.com>
+
+COPYRIGHT AND LICENSE
+    Copyright (C) 2010 by Trevor J. Little
+
+    This library is free software; you can redistribute it and/or modify it
+    under the same terms as Perl itself.
+
