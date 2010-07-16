@@ -169,7 +169,7 @@ All of the following options can be passed to the constructor, or be specified i
 stated, any options not specified will get whatever defaults L<Net::RabbitMQ> provides. See the documentation for that module
 for more details.
 
-=head3 Connetion Options
+=head3 Connection Options
 
 These options are used in the call to L<Net::RabbitMQ::connect()|Net::RabbitMQ/"methods"> when the appender is created.
 
