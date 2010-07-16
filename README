@@ -30,7 +30,7 @@ DESCRIPTION
     options not specified will get whatever defaults Net::RabbitMQ provides.
     See the documentation for that module for more details.
 
-   Connetion Options
+   Connection Options
     These options are used in the call to Net::RabbitMQ::connect() when the
     appender is created.
 
