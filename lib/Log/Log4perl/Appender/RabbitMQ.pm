@@ -1,9 +1,10 @@
-package Log::Log4perl::Appender::RabbitMQ;
 # ABSTRACT: Log to RabbitMQ
 
 use 5.008008;
 use strict;
 use warnings;
+
+package Log::Log4perl::Appender::RabbitMQ;
 
 our @ISA = qw/ Log::Log4perl::Appender /;
 
@@ -165,10 +166,6 @@ sub log {
 
 __END__
 
-=head1 NAME
-
-Log::Log4perl::Appender::RabbitMQ - Log to RabbitMQ
-
 =head1 SYNOPSIS
 
     use Log::Log4perl;
@@ -193,7 +190,7 @@ Log::Log4perl::Appender::RabbitMQ - Log to RabbitMQ
 This is a L<Log::Log4perl> appender for publishing log messages to RabbitMQ group using L<Net::RabbitMQ>.
 Defaults for unspecified options are provided by L<Net::RabbitMQ> and can be found in it's documentation.
 
-=head2 OPTIONS
+=head1 CONFIG OPTIONS
 
 All of the following options can be passed to the constructor, or be specified in the Log4perl config file. Unless otherwise
 stated, any options not specified will get whatever defaults L<Net::RabbitMQ> provides. See the documentation for that module
@@ -279,15 +276,16 @@ boolean. Flag published messages immediate.
 
 =back
 
-=head1 AUTHOR
+=head1 METHODS
 
-Trevor J. Little, E<lt>bundacia@tjlittle.comE<gt>
+This is a subclass of L<Log::Log4perl::Appender>. It overrides the following methods:
 
-=head1 COPYRIGHT AND LICENSE
+=over 4
 
-Copyright (C) 2010 by Trevor J. Little
+=item new
 
-This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself. 
+=item log
+
+=back
 
 =cut
