@@ -229,11 +229,15 @@ Defaults to localhost.
 
 =head3 Exchange Options
 
-Except for C<declare_exchange>, these options are used in a call to L<Net::RabbitMQ::exchange_declare()|Net::RabbitMQ/"methods"> to declare the
-exchange specified on the C<exchange> option (See L<Publish Options>).
-If C<declare_exchange> is false (the default) the exchange will not be declared and must already exist.
+Except for L<declare_exchange>, these options are used in a call to L<Net::RabbitMQ::exchange_declare()|Net::RabbitMQ/"methods"> to declare the
+exchange specified on the L<exchange> option (See L<Publish Options>).
+If L<declare_exchange> is false (the default) the exchange will not be declared and must already exist.
 
 =over 4
+
+=item declare_exchange
+
+Declare the exchange, or just trust that it already exists? Boolean, defaults to 0.
 
 =item exchange_type
 
