@@ -227,7 +227,29 @@ Defaults to localhost.
 
 =back
 
-=head3 Publishing Options
+=head3 Exchange Options
+
+Except for C<declare_exchange>, these options are used in a call to L<Net::RabbitMQ::exchange_declare()|Net::RabbitMQ/"methods"> to declare the
+exchange specified on the C<exchange> option (See L<Publish Options>).
+If C<declare_exchange> is false (the default) the exchange will not be declared and must already exist.
+
+=over 4
+
+=item exchange_type
+
+'direct, 'topic', etc. Boolean, defaults to 0.
+
+=item durable_exchange
+
+Should the exchange survive a restart? Boolean, defaults to 0.
+
+=item auto_delete_exchange
+
+Delete the exchange when this proccess disconnects? Boolean, defaults to 1.
+
+=back
+
+=head3 Publish Options
 
 These options are used in the call to L<Net::RabbitMQ::publish()|Net::RabbitMQ/"methods"> for each message.
 
