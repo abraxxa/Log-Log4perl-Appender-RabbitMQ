@@ -15,7 +15,7 @@ my $build = Module::Build->new(
     build_requires => {
         'Test::Net::RabbitMQ' => 0,
         'Test::More'          => 0,
-        'Test::Class'         => 0,
+        'Test::Output'        => 0,
     },
     create_readme   => 1,
     create_install  => 1,
