@@ -13,7 +13,7 @@ use Log::Log4perl;
 # by just setting up in the config and making
 # sure the right stuff gets sent to RabbitMQ
 # when we log.
-sub end_to_end : Test(6) {
+sub end_to_end : Test(5) {
 
     my $conf = <<CONF;
     log4perl.category.cat1 = INFO, RabbitMQ
@@ -37,9 +37,7 @@ CONF
     # Get the appender Object
     my $appender = Log::Log4perl->appenders->{RabbitMQ};#DEBUG#
 
-    ok(defined $appender, "RabbitMQ appender created") or return;
-    is(ref $appender, 'Log::Log4perl::Appender', "RabbitMQ appender is the right class");
-
+    isa_ok($appender, 'Log::Log4perl::Appender', 'RabbitMQ appender') or return;
 
     # Get the RabbitMQ object and open a second channel to
     # consume the messages off of.
