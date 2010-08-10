@@ -1,4 +1,6 @@
 {{$NEXT}}
+Simplified connection cache key generation.
+Removing obscure hash slice syntax since _connect_cached only returns one arg anyway.
 
 -- 0.102030  2010-07-22 08:47:59 EDT
 No Real changes to the code, just the build.

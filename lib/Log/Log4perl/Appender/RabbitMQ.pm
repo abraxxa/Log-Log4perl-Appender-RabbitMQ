@@ -78,7 +78,7 @@ sub new {
 
     # Create a new connection
     eval {
-        @{$self}{qw(mq channel)} = _connect_cached($self->{host}, \%connect_options);
+        $self->{mq} = _connect_cached($self->{host}, \%connect_options);
 
         # declare the exchange if declare_exchange is set
         $self->{mq}->exchange_declare(
@@ -110,8 +110,9 @@ sub new {
         my $host = shift;
         my $connect_options = shift;
 
+        # Create a cache key from the connection options and the host
         no warnings 'uninitialized';
-        my $cache_key = join(':', $host, map { $_ , $connect_options->{$_} } sort keys %$connect_options);
+        my $cache_key = join(':', $host, sort %$connect_options);
         use warnings;
 
         return $connection_cache{$cache_key} if $connection_cache{$cache_key};
