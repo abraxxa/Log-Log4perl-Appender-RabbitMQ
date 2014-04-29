@@ -53,7 +53,27 @@ $logger->debug("debugging message 1 ");
 ok(! defined $mq->recv(), "debug lvl ignored as per config");
 
 $logger->info("info message 1 ");      
-is($mq->recv(), "INFO>info message 1 \n", "info message sent to Rabbit with proper format");
+is_deeply(
+    $mq->recv(),
+    {
+        body         => "INFO>info message 1 \n",
+        routing_key  => 'myqueue',
+        exchange     => 'myexchange',
+        delivery_tag => 1,
+        consumer_tag => '',
+        props        => undef,
+    },
+    "info message sent to Rabbit with proper format");
 
 $logger->warn("warning message 1 ");   
-is($mq->recv(), "WARN>warning message 1 \n", "warn message sent to Rabbit with proper format");
+is_deeply(
+    $mq->recv(),
+    {
+        body         => "WARN>warning message 1 \n",
+        routing_key  => 'myqueue',
+        exchange     => 'myexchange',
+        delivery_tag => 2,
+        consumer_tag => '',
+        props        => undef,
+    },
+    "warn message sent to Rabbit with proper format");
