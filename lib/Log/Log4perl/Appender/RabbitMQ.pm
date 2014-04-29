@@ -188,18 +188,23 @@ __END__
 
 =head1 DESCRIPTION
 
-This is a L<Log::Log4perl> appender for publishing log messages to RabbitMQ group using L<Net::AMQP::RabbitMQ>.
-Defaults for unspecified options are provided by L<Net::AMQP::RabbitMQ> and can be found in it's documentation.
+This is a L<Log::Log4perl> appender for publishing log messages to RabbitMQ
+using L<Net::AMQP::RabbitMQ>.
+Defaults for unspecified options are provided by L<Net::AMQP::RabbitMQ> and
+can be found in it's documentation.
 
 =head1 CONFIG OPTIONS
 
-All of the following options can be passed to the constructor, or be specified in the Log4perl config file. Unless otherwise
-stated, any options not specified will get whatever defaults L<Net::AMQP::RabbitMQ> provides. See the documentation for that module
-for more details.
+All of the following options can be passed to the constructor, or be
+specified in the Log4perl config file. Unless otherwise stated, any options
+not specified will get whatever defaults L<Net::AMQP::RabbitMQ> provides.
+See the documentation for that module for more details.
 
 =head3 Connection Options
 
-These options are used in the call to L<Net::AMQP::RabbitMQ::connect()|Net::AMQP::RabbitMQ/"Methods"> when the appender is created.
+These options are used in the call to
+L<Net::AMQP::RabbitMQ::connect()|Net::AMQP::RabbitMQ/"Methods"> when the
+appender is created.
 
 =over 4
 
@@ -225,15 +230,19 @@ Defaults to localhost.
 
 =head3 Exchange Options
 
-Except for L<declare_exchange>, these options are used in a call to L<Net::AMQP::RabbitMQ::exchange_declare()|Net::AMQP::RabbitMQ/"Methods"> to declare the
-exchange specified on the L<exchange> option (See L<Publish Options>).
-If L<declare_exchange> is false (the default) the exchange will not be declared and must already exist.
+Except for L<declare_exchange>, these options are used in a call to
+L<Net::AMQP::RabbitMQ::exchange_declare()|Net::AMQP::RabbitMQ/"Methods"> to
+declare the exchange specified on the L<exchange> option
+(See L<Publish Options>).
+If L<declare_exchange> is false (the default) the exchange will not be
+declared and must already exist.
 
 =over 4
 
 =item declare_exchange
 
-Declare the exchange, or just trust that it already exists? Boolean, defaults to 0.
+Declare the exchange, or just trust that it already exists?
+Boolean, defaults to 0.
 
 =item exchange_type
 
@@ -251,21 +260,25 @@ Delete the exchange when this proccess disconnects? Boolean, defaults to 1.
 
 =head3 Publish Options
 
-These options are used in the call to L<Net::AMQP::RabbitMQ::publish()|Net::AMQP::RabbitMQ/"Methods"> for each message.
+These options are used in the call to
+L<Net::AMQP::RabbitMQ::publish()|Net::AMQP::RabbitMQ/"Methods"> for each
+message.
 
 =over 4
 
 =item routing_key
 
-The routing key for messages. If the routing key contains a C<%c> or a C<%p> it will 
-be interpolated for each message. C<%c> will be replaced with the Log4perl category.
+The routing key for messages. If the routing key contains a C<%c> or a C<%p>
+it will be interpolated for each message. C<%c> will be replaced with the
+Log4perl category.
 C<%p> will be replaces with the Log4perl priority.
 
 Defaults to C<%C>
 
 =item exchange
 
-The exchange to publish the message too. This exchange must already exist.
+The exchange to publish the message too. This exchange must already exist
+unless declare_exchange is set to true.
 
 =item mandatory
 
@@ -279,7 +292,8 @@ boolean. Flag published messages immediate.
 
 =head1 METHODS
 
-This is a subclass of L<Log::Log4perl::Appender>. It overrides the following methods:
+This is a subclass of L<Log::Log4perl::Appender>. It overrides the following
+methods:
 
 =over 4
 
