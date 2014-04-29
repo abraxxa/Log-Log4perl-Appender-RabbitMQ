@@ -246,7 +246,7 @@ Boolean, defaults to 0.
 
 =item exchange_type
 
-'direct, 'topic', etc. Boolean, defaults to 0.
+'direct, 'topic', etc.
 
 =item durable_exchange
 
