@@ -68,6 +68,9 @@ sub new {
         $connect_options{$name} = $args{$name} if exists $args{$name};
     }
 
+    # this can be created once as there are no parameters
+    my $mq = $RabbitMQClass->new();
+
     my $self = bless {
         host        => $args{host}        || 'localhost',
         routing_key => $args{routing_key} || '%c'       ,
@@ -75,6 +78,7 @@ sub new {
         connect_options  => \%connect_options,
         exchange_options => \%exchange_options,
         publish_options  => \%publish_options,
+        mq               => $mq,
         _is_connected    => 0,
     }, $class;
 
@@ -84,7 +88,8 @@ sub new {
 
     # Create a new connection
     eval {
-        my $mq = $self->_connect_cached();
+        # connect on construction to make finding errors early easier
+        $self->_connect_cached();
 
         # declare the exchange if declare_exchange is set
         $mq->exchange_declare(
@@ -106,19 +111,7 @@ sub _connect_cached {
 ##################################################
     my $self = shift;
 
-    my $mq;
-    # use cached object
-    if (exists $self->{mq}) {
-        #warn "INFO using cached RabbitMQ object\n";
-        $mq = $self->{mq};
-    }
-    else {
-        #warn "INFO constructing new RabbitMQ object\n";
-        $mq = $RabbitMQClass->new();
-        # Cache RabbitMQ object
-        $self->{mq} = $mq;
-        $self->{_is_connected} = 0;
-    }
+    my $mq = $self->{mq};
 
     if (!$self->{_is_connected}) {
         #warn "INFO connecting to RabbitMQ\n";
@@ -127,7 +120,6 @@ sub _connect_cached {
         $self->{_is_connected} = 1;
     }
 
-    # Return the RabbitMQ object and the channel we used
     return $mq;
 }
 
