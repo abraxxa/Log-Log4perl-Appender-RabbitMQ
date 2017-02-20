@@ -1,4 +1,5 @@
 {{$NEXT}}
+    - fix end_to_end.t due to different return values by Net::AMQP::RabbitMQ
 
 0.141470  2014-05-27 08:39:29EDT-0400 America/New_York
     - simplify connection cache key generation

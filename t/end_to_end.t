@@ -61,7 +61,8 @@ is_deeply(
         exchange     => 'myexchange',
         delivery_tag => 1,
         consumer_tag => '',
-        props        => undef,
+        props        => {},
+        redelivered  => 0,
     },
     "info message sent to Rabbit with proper format");
 
@@ -74,6 +75,7 @@ is_deeply(
         exchange     => 'myexchange',
         delivery_tag => 2,
         consumer_tag => '',
-        props        => undef,
+        props        => {},
+        redelivered  => 0,
     },
     "warn message sent to Rabbit with proper format");
