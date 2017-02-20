@@ -130,8 +130,6 @@ sub log {
 ##################################################
     my ($self, %args) = @_;
 
-    my $mq = $self->_connect_cached();
-
     # customize the routing key for this message by 
     # inserting category and level if interpolate_routing_key
     # flag is set
@@ -141,17 +139,27 @@ sub log {
         $routing_key =~ s/%p/$args{log4p_level}/g;
     }
 
-    # publish the message to the specified group
-    eval {
-        $mq->publish($CHANNEL, $routing_key, $args{message}, $self->{publish_options});
-        1;
-    } or do {
-        # If you got an error warn about it and clear the 
-        # Net::AMQP::RabbitMQ object so we don't keep trying
-        warn "ERROR logging to RabbitMQ via ".ref($self).": $@\n";
-        # force a reconnect
-        $self->{_is_connected} = 0;
-    };
+    my $successful = 0;
+    my $try = 0;
+    my $retries = 1;
+    while (!$successful && $try <= $retries) {
+        $try++;
+
+        # publish the message to the specified group
+        eval {
+            my $mq = $self->_connect_cached();
+
+            $mq->publish($CHANNEL, $routing_key, $args{message}, $self->{publish_options});
+            $successful = 1;
+            1;
+        } or do {
+            # If you got an error warn about it and clear the
+            # Net::AMQP::RabbitMQ object so we don't keep trying
+            warn "ERROR logging to RabbitMQ via ".ref($self).": $@\n";
+            # force a reconnect
+            $self->{_is_connected} = 0;
+        };
+    }
 
     return;
 }
