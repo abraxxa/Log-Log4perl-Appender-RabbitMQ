@@ -1,4 +1,6 @@
 {{$NEXT}}
+
+0.141470  2014-05-27 08:39:29EDT-0400 America/New_York
     - simplify connection cache key generation
     - remove obscure hash slice syntax since _connect_cached only returns one
       arg anyway
