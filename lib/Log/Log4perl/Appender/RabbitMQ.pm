@@ -132,12 +132,6 @@ sub log {
 
     my $mq = $self->_connect_cached();
 
-    # do nothing if the Net::AMQP::RabbitMQ object is missing
-    unless ($mq) {
-        #warn "ERROR logging to RabbitMQ, invalid parameters\n";
-        return;
-    }
-
     # customize the routing key for this message by 
     # inserting category and level if interpolate_routing_key
     # flag is set
