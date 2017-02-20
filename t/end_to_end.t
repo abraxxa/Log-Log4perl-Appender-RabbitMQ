@@ -16,7 +16,7 @@ my $conf = <<CONF;
 
     log4perl.appender.RabbitMQ=Log::Log4perl::Appender::RabbitMQ
 
-    # turn on testing mode, so that we won't really try to 
+    # turn on testing mode, so that we won't really try to
     # connect to a RabbitMQ, but will use Test::Net::RabbitMQ instead
     log4perl.appender.RabbitMQ.TESTING=1
 
@@ -66,7 +66,7 @@ is_deeply(
     },
     "info message sent to Rabbit with proper format");
 
-$logger->warn("warning message 1 ");   
+$logger->warn("warning message 1 ");
 is_deeply(
     $mq->recv(),
     {
