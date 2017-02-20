@@ -3,6 +3,7 @@
     - require Net::AMQP::RabbitMQ 2.30000
     - add encryption support
     - add reconnect support
+    - add forking support
     - remove class-wide connection caching
 
 0.141470  2014-05-27 08:39:29EDT-0400 America/New_York

@@ -113,11 +113,13 @@ sub _connect_cached {
 
     my $mq = $self->{mq};
 
-    if (!$self->{_is_connected}) {
+    if (!$self->{_is_connected} || $$ != $self->{pid}) {
         #warn "INFO connecting to RabbitMQ\n";
         $mq->connect($self->{host}, $self->{connect_options});
         $mq->channel_open($CHANNEL);
         $self->{_is_connected} = 1;
+        # remember pid on connect because forking requires to reconnect
+        $self->{pid} = $$;
     }
 
     return $mq;
