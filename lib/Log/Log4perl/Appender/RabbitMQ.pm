@@ -26,16 +26,6 @@ sub new {
         require Test::Net::RabbitMQ;
     }
 
-    my $self = bless {
-        host        => $args{host}        || 'localhost',
-        routing_key => $args{routing_key} || '%c'       ,
-        declare_exchange => $args{declare_exchange},
-    }, $class;
-
-    # set a flag that tells us to do routing_key interpolation
-    # only if there are things to interpolate.
-    $self->{interpolate_routing_key} = 1 if $self->{routing_key} =~ /%c|%p/;
-
     # Store any given exchange options for declaring an exchange
     my %exchange_options;
     for my $name (qw/
@@ -49,7 +39,6 @@ sub new {
         (my $declare_param_name = $name) =~ s/(.*)_exchange$/$1/;
         $exchange_options{$declare_param_name} = $args{$name} if exists $args{$name};
     }
-    $self->{exchange_options} = \%exchange_options;
 
     # Store any given publish options for use when log is called
     my %publish_options;
@@ -60,7 +49,6 @@ sub new {
     /) {
         $publish_options{$name} = $args{$name} if exists $args{$name};
     }
-    $self->{publish_options} = \%publish_options;
 
     # use any given connect options in connect
     my %connect_options;
@@ -79,6 +67,19 @@ sub new {
     /) {
         $connect_options{$name} = $args{$name} if exists $args{$name};
     }
+
+    my $self = bless {
+        host        => $args{host}        || 'localhost',
+        routing_key => $args{routing_key} || '%c'       ,
+        declare_exchange => $args{declare_exchange},
+        connect_options  => \%connect_options,
+        exchange_options => \%exchange_options,
+        publish_options  => \%publish_options,
+    }, $class;
+
+    # set a flag that tells us to do routing_key interpolation
+    # only if there are things to interpolate.
+    $self->{interpolate_routing_key} = 1 if $self->{routing_key} =~ /%c|%p/;
 
     # Create a new connection
     eval {
