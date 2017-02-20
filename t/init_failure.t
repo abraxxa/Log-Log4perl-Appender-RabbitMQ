@@ -7,7 +7,7 @@ use Test::More tests => 2;
 use Test::Output qw/stderr_like/;
 use Log::Log4perl;
 
-# Test that the right thing happens if the 
+# Test that the right thing happens if the
 # appender has a problem during initialization.
 
 # Use Test::Net::RabbitMQ so we can replace the connect method
@@ -23,7 +23,7 @@ my $conf = <<CONF;
 
     log4perl.appender.RabbitMQ=Log::Log4perl::Appender::RabbitMQ
 
-    # turn on testing mode, so that we won't really try to 
+    # turn on testing mode, so that we won't really try to
     # connect to a RabbitMQ, but will use Test::Net::RabbitMQ instead
     log4perl.appender.RabbitMQ.TESTING=1
 

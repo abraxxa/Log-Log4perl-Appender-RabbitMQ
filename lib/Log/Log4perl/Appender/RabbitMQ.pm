@@ -130,7 +130,7 @@ sub log {
 ##################################################
     my ($self, %args) = @_;
 
-    # customize the routing key for this message by 
+    # customize the routing key for this message by
     # inserting category and level if interpolate_routing_key
     # flag is set
     my $routing_key = $self->{routing_key};
