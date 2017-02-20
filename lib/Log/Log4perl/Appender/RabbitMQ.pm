@@ -8,7 +8,7 @@ package Log::Log4perl::Appender::RabbitMQ;
 
 our @ISA = qw/ Log::Log4perl::Appender /;
 
-use Net::AMQP::RabbitMQ 0.004002;
+use Net::AMQP::RabbitMQ 2.30000;
 use Readonly;
 
 Readonly my $CHANNEL => 1;
