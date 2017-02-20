@@ -72,6 +72,10 @@ sub new {
        channel_max
        frame_max
        heartbeat
+       ssl
+       ssl_verify_host
+       ssl_cacert
+       ssl_init
     /) {
         $connect_options{$name} = $args{$name} if exists $args{$name};
     }
@@ -225,6 +229,14 @@ Defaults to localhost.
 =item frame_max
 
 =item heartbeat
+
+=item ssl
+
+=item ssl_verify_host
+
+=item ssl_cacert
+
+=item ssl_init
 
 =back
 

@@ -1,6 +1,7 @@
 {{$NEXT}}
     - fix end_to_end.t due to different return values by Net::AMQP::RabbitMQ
     - require Net::AMQP::RabbitMQ 2.30000
+    - add encryption support
 
 0.141470  2014-05-27 08:39:29EDT-0400 America/New_York
     - simplify connection cache key generation
