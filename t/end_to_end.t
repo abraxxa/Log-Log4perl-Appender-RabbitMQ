@@ -37,7 +37,7 @@ isa_ok($appender, 'Log::Log4perl::Appender', 'RabbitMQ appender');
 
 # Get the RabbitMQ object and open a second channel to
 # consume the messages off of.
-my $mq = $appender->{appender}{mq};
+my $mq = $appender->{appender}->_connect_cached();
 $mq->channel_open(2);
 $mq->queue_declare(2, "myqueue");
 $mq->queue_bind(2, "myqueue", "myexchange", "myqueue");
@@ -52,7 +52,7 @@ my $logger = Log::Log4perl->get_logger('cat1');
 $logger->debug("debugging message 1 ");
 ok(! defined $mq->recv(), "debug lvl ignored as per config");
 
-$logger->info("info message 1 ");      
+$logger->info("info message 1 ");
 is_deeply(
     $mq->recv(),
     {

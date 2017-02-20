@@ -75,6 +75,7 @@ sub new {
         connect_options  => \%connect_options,
         exchange_options => \%exchange_options,
         publish_options  => \%publish_options,
+        _is_connected    => 0,
     }, $class;
 
     # set a flag that tells us to do routing_key interpolation
@@ -83,12 +84,12 @@ sub new {
 
     # Create a new connection
     eval {
-        $self->{mq} = _connect_cached($self->{host}, \%connect_options);
+        my $mq = $self->_connect_cached();
 
         # declare the exchange if declare_exchange is set
-        $self->{mq}->exchange_declare(
-            $CHANNEL, 
-            $self->{publish_options}{exchange}, 
+        $mq->exchange_declare(
+            $CHANNEL,
+            $self->{publish_options}{exchange},
             $self->{exchange_options},
         ) if $self->{declare_exchange};
 
@@ -100,39 +101,34 @@ sub new {
     return $self;
 }
 
-
 ##################################################
-# this closure provides a private class method
-# that will connect to RabbitMQ and cache that
-# connection. The next time it's called with
-# the same params it returns the cached connection.
-{
-    my %connection_cache;
+sub _connect_cached {
+##################################################
+    my $self = shift;
 
-    ##################################################
-    sub _connect_cached {
-    ##################################################
-        my $host = shift;
-        my $connect_options = shift;
-
-        # Create a cache key from the connection options and the host
-        no warnings 'uninitialized';
-        my $cache_key = join(':', $host, sort %$connect_options);
-        use warnings;
-
-        return $connection_cache{$cache_key} if $connection_cache{$cache_key};
-
-        # Create new RabbitMQ object & connection, open channel 1
-        my $mq = $RabbitMQClass->new();
-        $mq->connect($host, $connect_options);
-        $mq->channel_open($CHANNEL);
-
-        # Cache RabbitMQ object
-        $connection_cache{$cache_key} = $mq;
-
-        # Return the RabbitMQ object and the channel we used
-        return $mq;
+    my $mq;
+    # use cached object
+    if (exists $self->{mq}) {
+        #warn "INFO using cached RabbitMQ object\n";
+        $mq = $self->{mq};
     }
+    else {
+        #warn "INFO constructing new RabbitMQ object\n";
+        $mq = $RabbitMQClass->new();
+        # Cache RabbitMQ object
+        $self->{mq} = $mq;
+        $self->{_is_connected} = 0;
+    }
+
+    if (!$self->{_is_connected}) {
+        #warn "INFO connecting to RabbitMQ\n";
+        $mq->connect($self->{host}, $self->{connect_options});
+        $mq->channel_open($CHANNEL);
+        $self->{_is_connected} = 1;
+    }
+
+    # Return the RabbitMQ object and the channel we used
+    return $mq;
 }
 
 ##################################################
@@ -140,10 +136,13 @@ sub log {
 ##################################################
     my ($self, %args) = @_;
 
-    my $mq = $self->{mq};
+    my $mq = $self->_connect_cached();
 
     # do nothing if the Net::AMQP::RabbitMQ object is missing
-    return unless $mq;
+    unless ($mq) {
+        #warn "ERROR logging to RabbitMQ, invalid parameters\n";
+        return;
+    }
 
     # customize the routing key for this message by 
     # inserting category and level if interpolate_routing_key
@@ -162,7 +161,8 @@ sub log {
         # If you got an error warn about it and clear the 
         # Net::AMQP::RabbitMQ object so we don't keep trying
         warn "ERROR logging to RabbitMQ via ".ref($self).": $@\n";
-        $self->{mq} = undef;
+        # force a reconnect
+        $self->{_is_connected} = 0;
     };
 
     return;
