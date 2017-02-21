@@ -7,6 +7,7 @@
     - retry failed publish once to reconnect e.g. on broken connection due
       to server restart
     - remove class-wide connection caching
+    - disconnect on shutdown
 
 0.141470  2014-05-27 08:39:29EDT-0400 America/New_York
     - simplify connection cache key generation

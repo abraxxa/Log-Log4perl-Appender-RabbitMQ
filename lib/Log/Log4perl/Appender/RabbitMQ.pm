@@ -164,6 +164,12 @@ sub log {
     return;
 }
 
+sub DESTROY {
+    my $self = shift;
+    $self->{mq}->disconnect()
+        if exists $self->{mq} && defined $self->{mq};
+}
+
 1;
 
 __END__
