@@ -64,6 +64,7 @@ sub new {
        ssl_verify_host
        ssl_cacert
        ssl_init
+       timeout
     /) {
         $connect_options{$name} = $args{$name} if exists $args{$name};
     }
@@ -240,6 +241,8 @@ Defaults to localhost.
 =item ssl_cacert
 
 =item ssl_init
+
+=item timeout
 
 =back
 

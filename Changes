@@ -1,4 +1,5 @@
 {{$NEXT}}
+    - add timeout connection option
 
 0.200001  2017-02-21 17:11:43+01:00 Europe/Vienna
     - fix end_to_end.t due to different return values by Net::AMQP::RabbitMQ
